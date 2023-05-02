@@ -1,18 +1,18 @@
 package io.turntabl.vehicle;
 
-import io.turntabl.owner.Owner;
-
 public class Car extends Vehicle{
-
-
-    public Car(Owner registeredOwner, String numberPlate, double baseChargePerMonth, String permitNumber) {
-        super(registeredOwner, numberPlate, baseChargePerMonth, permitNumber);
+    private final double charge = 20;
+    public Car(String numberPlate, String permitNumber) {
+        super(numberPlate, permitNumber);
     }
-
 
     @Override
     public double calcChargePerMonth() {
-       setBaseChargePerMonth(20.00);
-        return getBaseChargePerMonth();
+        return charge;
+    }
+
+    @Override
+    public String toString() {
+        return "Car";
     }
 }
