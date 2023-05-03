@@ -9,9 +9,6 @@ import java.util.*;
 
 public class TownCouncil {
     private final Set<Vehicle> vehicles;
-    private final List<Person> registeredUsers;
-
-    private final Map<VehicleType, String> vehiclesWithPermit;
     private VerificationService verificationService;
     private PermitIssuerService permitIssuerService;
 
@@ -19,21 +16,31 @@ public class TownCouncil {
         this.permitIssuerService = permitIssuerService;
         this.verificationService = verificationService;
         this.vehicles = new HashSet<>();
-        this.registeredUsers = new ArrayList<>();
-        this.vehiclesWithPermit = new HashMap<>();
+
     }
 
     public void validateOwner(Vehicle vehicle, Person person) throws UserNotPermittedException {
         if (verificationService.verifyPerson(person, vehicle)) {
             if (vehicle.getVehicleType().equals(VehicleType.LORRY)) {
-            //todo: create a custom issue permit and use here
+                issuePermit(vehicle);
             } else {
                 vehicle.setPermitNumber(permitIssuerService.issuePermit(vehicle));
-                vehiclesWithPermit.put(vehicle.getVehicleType(), vehicle.getPermitNumber());
+                vehicles.add(vehicle);
 
             }
         }else{
             throw new UserNotPermittedException("Denied permission!");
         }
+    }
+
+    private void issuePermit(Vehicle vehicle){
+        String permitNumber = "Permit" + vehicle.getNumberPlate();
+        vehicle.setPermitNumber(permitNumber);
+
+        vehicles.add(vehicle);
+    }
+
+    public Set<Vehicle> getVehicles() {
+        return vehicles;
     }
 }

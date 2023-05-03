@@ -23,13 +23,24 @@ class CarTest {
     }
 
     @Test
-    void calcChargePerMonth() throws UserAlreadyExistsException {
+    void testCalcChargePerMonth() throws UserAlreadyExistsException {
             car.addRegisteredPersons(person2);
             car.addRegisteredPersons(person3);
 
         //action
         //assert
         Assertions.assertEquals(60.0,car.calcChargePerMonth());
+    }
+
+    @Test
+    void checkIfThrowsUserAlreadyExistsException() throws UserAlreadyExistsException {
+
+        Assertions.assertThrows(UserAlreadyExistsException.class, () ->
+        {
+            car.addRegisteredPersons(person2);
+            car.addRegisteredPersons(person2);
+        }
+        ) ;
     }
 }
 

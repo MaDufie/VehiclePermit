@@ -9,6 +9,7 @@ public class Car extends Vehicle{
         super(numberPlate, person,VehicleType.CAR);
     }
 
+
     @Override
     public double calcChargePerMonth() {
         return charge * getRegisteredPersons().size();
