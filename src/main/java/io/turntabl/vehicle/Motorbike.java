@@ -1,13 +1,13 @@
 package io.turntabl.vehicle;
 
-import io.turntabl.owner.Owner;
+import io.turntabl.owner.Person;
 
 public class Motorbike extends Vehicle{
     private final double capacity;
     private double charge;
 
-    public Motorbike(String numberPlate, String permitNumber, double capacity) {
-        super(numberPlate, permitNumber);
+    public Motorbike(String numberPlate, Person person, double capacity) {
+        super(numberPlate, person, VehicleType.MOTORBIKE);
         this.capacity = capacity;
     }
 
@@ -18,8 +18,5 @@ public class Motorbike extends Vehicle{
         return charge;
     }
 
-    @Override
-    public String toString() {
-        return "Bike";
-    }
+
 }

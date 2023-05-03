@@ -1,9 +1,9 @@
 package io.turntabl.owner;
 
-public class Owner {
-    private String nationalID;
+public class Person {
+    private final String nationalID;
 
-    public Owner(String nationalID) {
+    public Person(String nationalID) {
         this.nationalID = nationalID;
     }
 

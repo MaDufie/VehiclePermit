@@ -1,32 +1,39 @@
 package io.turntabl.towncouncil;
 
-import io.turntabl.owner.Owner;
+import io.turntabl.exceptions.UserNotPermittedException;
+import io.turntabl.owner.Person;
 import io.turntabl.vehicle.Vehicle;
+import io.turntabl.vehicle.VehicleType;
 
 import java.util.*;
 
 public class TownCouncil {
-    private List<Vehicle> vehicles;
-    private List<Owner> registeredUsers;
+    private final Set<Vehicle> vehicles;
+    private final List<Person> registeredUsers;
 
-    private Map<String, Integer> vehiclesWithPermit;
+    private final Map<VehicleType, String> vehiclesWithPermit;
+    private VerificationService verificationService;
+    private PermitIssuerService permitIssuerService;
 
-    public TownCouncil() {
-        this.vehicles = new ArrayList<>();
+    public TownCouncil(VerificationService verificationService, PermitIssuerService permitIssuerService) {
+        this.permitIssuerService = permitIssuerService;
+        this.verificationService = verificationService;
+        this.vehicles = new HashSet<>();
         this.registeredUsers = new ArrayList<>();
         this.vehiclesWithPermit = new HashMap<>();
     }
 
-    public String issuePermit(Owner owner, Vehicle vehicle) throws ParkingPermissionDeniedException{
-        Random rd = new Random();
-        rd.nextInt(1, 100);
-        String permitNumber = "permitIssued2023" + rd;
-        if (registeredUsers.contains(owner.getNationalID())) {
-            if(vehiclesWithPermit.containsKey(vehicle.toString()))
-            vehiclesWithPermit.put(vehicle.toString(), );
-            return permitNumber;
-        } else {
-            throw new ParkingPermissionDeniedException("Sorry but you are not the registered owner");
+    public void validateOwner(Vehicle vehicle, Person person) throws UserNotPermittedException {
+        if (verificationService.verifyPerson(person, vehicle)) {
+            if (vehicle.getVehicleType().equals(VehicleType.LORRY)) {
+            //todo: create a custom issue permit and use here
+            } else {
+                vehicle.setPermitNumber(permitIssuerService.issuePermit(vehicle));
+                vehiclesWithPermit.put(vehicle.getVehicleType(), vehicle.getPermitNumber());
+
+            }
+        }else{
+            throw new UserNotPermittedException("Denied permission!");
         }
     }
 }

@@ -1,5 +1,6 @@
 package io.turntabl.vehicle;
 
+import io.turntabl.owner.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -7,14 +8,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MotorbikeTest {
     private Vehicle bike;
+    private Person person;
     @BeforeEach
     void setUp() {
+        person = new Person("GHA-0001-0987");
     }
 
     @Test
     void checkChargeIfLessThan850() {
         //arrange
-        bike = new Motorbike("GK-00-5680", "26", 80);
+        bike = new Motorbike("GK-00-5680", person, 80);
 
         //act
         //assert
@@ -24,7 +27,7 @@ class MotorbikeTest {
     @Test
     void checkChargeIfGreaterThan850() {
         //arrange
-        bike = new Motorbike("GK-00-5680", "26", 980);
+        bike = new Motorbike("GK-00-5680", person, 980);
 
         //act
         //assert
